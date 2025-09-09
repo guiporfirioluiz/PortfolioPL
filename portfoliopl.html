@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio - Porfirio Luiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18222C; /* Nova cor de fundo */
+            overflow-x: hidden;
+        }
+
+        /* Animação da borda do card */
+        .icon-card rect {
+            stroke-dasharray: 1200; /* Um valor grande para cobrir o perímetro do retângulo */
+            stroke-dashoffset: 1200;
+            transition: stroke-dashoffset 1.2s ease-in-out;
+        }
+
+        /* Ativa a animação da borda ao passar o mouse */
+        .icon-card:hover rect {
+            stroke-dashoffset: 0;
+        }
+
+        /* Estilos para a visualização de projetos */
+        .project-view-active #main-content {
+            display: none;
+        }
+        .project-section {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .project-section.visible {
+            opacity: 1;
+        }
+
+        /* Animação do ponto */
+        @keyframes pulse-dot {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.1);
+            }
+        }
+        .dot-animation {
+            display: inline-block;
+            animation: pulse-dot 3s ease-in-out infinite;
+        }
+
+        /* Animação da linha "Saiba mais" */
+        .line-drawer {
+            stroke-dasharray: 220; /* Comprimento da linha, ajustado para o texto */
+            stroke-dashoffset: 220;
+        }
+        .header-group:hover .line-drawer {
+            transition: stroke-dashoffset 0.8s ease-in-out;
+            stroke-dashoffset: 0;
+        }
+
+        /* Animação de digitação simples */
+        .typing-effect {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: .15em solid white;
+            /* Animação: digita por 2s, depois esconde o cursor */
+            animation: typing 2s steps(13, end), hide-border .1s 2s forwards;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes hide-border {
+            100% {
+                border-color: transparent;
+            }
+        }
+
+        /* Estilos para animação na rolagem */
+        .icon-card {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .icon-card.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    </style>
+</head>
+<body class="text-gray-300">
+
+    <!-- Div para a animação de transição -->
+    <div id="expander" class="fixed bg-[#18222C] z-40 rounded-2xl pointer-events-none" style="transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);"></div>
+
+    <div id="main-content" class="container mx-auto px-4 py-8 md:py-12 max-w-4xl">
+
+        <!-- Cabeçalho com o nome -->
+        <header class="text-center mb-12 md:mb-16 flex justify-center items-center h-20">
+            <div class="header-group group relative flex items-center cursor-pointer">
+                <!-- Título animado -->
+                <h1 class="text-4xl md:text-5xl font-light tracking-wider text-white">
+                    <span class="typing-effect">PORFIRIO LUIZ</span><span class="text-amber-400 dot-animation">.</span>
+                </h1>
+                <!-- Seção "Saiba mais" que aparece -->
+                <a href="#aboutme" class="flex flex-col items-center text-lg text-white whitespace-nowrap transition-all duration-700 ease-in-out max-w-0 opacity-0 group-hover:max-w-xs group-hover:opacity-100 group-hover:ml-4 overflow-hidden">
+                    <span>Saiba mais sobre mim</span>
+                    <svg width="220" height="2" class="mt-1 flex-shrink-0">
+                        <line class="line-drawer" x1="0" y1="1" x2="220" y2="1" stroke="#f59e0b" stroke-width="2" />
+                    </svg>
+                </a>
+            </div>
+        </header>
+
+        <main>
+            <!-- Seção de Habilidades/Projetos -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 md:mb-20">
+                
+                <!-- Card Desenvolvimento -->
+                <div data-target="dev-projects" class="icon-card group relative p-8 rounded-2xl text-center flex flex-col items-center justify-center transition-all duration-300 cursor-pointer">
+                    <svg class="absolute inset-0 w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)" rx="15" class="stroke-amber-400" stroke-width="2"/>
+                    </svg>
+                    <!-- Conteúdo do Card -->
+                    <div class="relative z-10 group-hover:opacity-100 transition-opacity duration-300">
+                        <svg class="w-20 h-20 mb-6 text-gray-300 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14.5 4.5l-5 15"/><path d="M20 8.5l-2.2-2.2"/><path d="M4 15.5l2.2 2.2"/><path d="M17.3 2.7l-2.2 2.2"/><path d="M6.7 19.3l2.2-2.2"/><path d="M9 22V10a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v12"/><path d="M2 17h4"/><path d="M18 17h4"/>
+                        </svg>
+                        <h2 class="text-xl font-semibold text-white">Desenvolvimento</h2>
+                    </div>
+                </div>
+
+                <!-- Card Design -->
+                <div data-target="design-projects" class="icon-card group relative p-8 rounded-2xl text-center flex flex-col items-center justify-center transition-all duration-300 cursor-pointer">
+                    <svg class="absolute inset-0 w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)" rx="15" class="stroke-amber-400" stroke-width="2"/>
+                    </svg>
+                    <!-- Conteúdo do Card -->
+                    <div class="relative z-10 group-hover:opacity-100 transition-opacity duration-300">
+                        <svg class="w-20 h-20 mb-6 text-gray-300 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21.28 2.22a2.22 2.22 0 0 0-3.14 0L2.22 18.14a2.22 2.22 0 0 0 0 3.14l.71.71a2.22 2.22 0 0 0 3.14 0l15.21-15.21a2.22 2.22 0 0 0 0-3.14z"/><path d="m11.5 2.5 9 9"/><path d="M3 21.5 12.5 12"/>
+                        </svg>
+                        <h2 class="text-xl font-semibold text-white">Design</h2>
+                    </div>
+                </div>
+
+                <!-- Card Ilustração -->
+                <div data-target="illustration-projects" class="icon-card group relative p-8 rounded-2xl text-center flex flex-col items-center justify-center transition-all duration-300 cursor-pointer">
+                    <svg class="absolute inset-0 w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)" rx="15" class="stroke-amber-400" stroke-width="2"/>
+                    </svg>
+                    <!-- Conteúdo do Card -->
+                    <div class="relative z-10 group-hover:opacity-100 transition-opacity duration-300">
+                        <svg class="w-20 h-20 mb-6 text-gray-300 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><path d="M12 7a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M19.5 12.5c0-1.5-1-3-3-3s-3 1.5-3 3c0 3 6 5.5 6 5.5"/>
+                        </svg>
+                        <h2 class="text-xl font-semibold text-white">Ilustração</h2>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-8 mb-8">
+            <section class="max-w-xl mx-auto">
+                <h3 class="text-2xl font-bold text-center mb-2 text-white">Contato</h3>
+                <p class="text-center text-gray-400 mb-8">Vamos conversar sobre o seu próximo projeto?</p>
+                <form action="#" method="POST" class="space-y-6">
+                    <div>
+                        <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 bg-gray-800/30 border border-gray-700/60 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all duration-300 placeholder-gray-500" placeholder="Olá, estou interessado(a) em contratar seus serviços, podemos conversar melhor sobre isso?"></textarea>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <input type="email" id="email" name="email" class="w-full px-4 py-3 bg-gray-800/30 border border-gray-700/60 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all duration-300 placeholder-gray-500" placeholder="Seu email" required>
+                        <button type="submit" class="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-300">Enviar</button>
+                    </div>
+                </form>
+            </section>
+             <div class="flex justify-center space-x-6 mt-16">
+                <a href="mailto:seuemail@example.com" class="text-gray-400 hover:text-white transition-colors duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </a>
+                <a href="https://wa.me/SEUNUMERO" target="_blank" class="text-gray-400 hover:text-white transition-colors duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </a>
+                <a href="https://github.com/SEUUSUARIO" target="_blank" class="text-gray-400 hover:text-white transition-colors duration-300">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                </a>
+                <a href="https://instagram.com/SEUUSUARIO" target="_blank" class="text-gray-400 hover:text-white transition-colors duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                </a>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Seções de Projetos (escondidas por padrão) -->
+    <div class="fixed inset-0 z-50 pointer-events-none">
+        <section id="dev-projects" class="project-section hidden w-full h-full p-8 overflow-y-auto">
+            <div class="container mx-auto max-w-4xl text-center">
+                <h2 class="text-4xl font-bold mb-8">Projetos de Desenvolvimento</h2>
+                <p class="mb-8">Aqui ficará a galeria com seus projetos de desenvolvimento.</p>
+                <button class="close-btn bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300 pointer-events-auto">Voltar</button>
+            </div>
+        </section>
+
+        <section id="design-projects" class="project-section hidden w-full h-full p-8 overflow-y-auto">
+             <div class="container mx-auto max-w-4xl text-center">
+                <h2 class="text-4xl font-bold mb-8">Projetos de Design</h2>
+                <p class="mb-8">Aqui ficará a galeria com seus projetos de design.</p>
+                <button class="close-btn bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300 pointer-events-auto">Voltar</button>
+            </div>
+        </section>
+
+        <section id="illustration-projects" class="project-section hidden w-full h-full p-8 overflow-y-auto">
+            <div class="container mx-auto max-w-4xl text-center">
+                <h2 class="text-4xl font-bold mb-8">Projetos de Ilustração</h2>
+                <p class="mb-8">Aqui ficará a galeria com seus projetos de ilustração.</p>
+                <button class="close-btn bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300 pointer-events-auto">Voltar</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Lógica para Animação de Scroll ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        // Para a observação depois que a animação acontece uma vez
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1 // Anima quando 10% do item está visível
+            });
+
+            const elementsToAnimate = document.querySelectorAll('.icon-card');
+            elementsToAnimate.forEach((el) => observer.observe(el));
+
+
+            // --- Lógica dos Cards ---
+            const cards = document.querySelectorAll('.icon-card');
+            const expander = document.getElementById('expander');
+            const body = document.body;
+            let activeCard = null;
+
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const targetId = card.dataset.target;
+                    const targetSection = document.getElementById(targetId);
+                    if (!targetSection) return;
+
+                    activeCard = card;
+                    const cardRect = card.getBoundingClientRect();
+
+                    // Prepara o expansor na posição do card
+                    expander.style.top = `${cardRect.top}px`;
+                    expander.style.left = `${cardRect.left}px`;
+                    expander.style.width = `${cardRect.width}px`;
+                    expander.style.height = `${cardRect.height}px`;
+                    
+                    // Força um repaint antes de aplicar a transição
+                    requestAnimationFrame(() => {
+                        body.classList.add('project-view-active');
+                        // Expande para a tela cheia
+                        expander.style.top = '0px';
+                        expander.style.left = '0px';
+                        expander.style.width = '100vw';
+                        expander.style.height = '100vh';
+                        expander.style.borderRadius = '0px';
+                    });
+
+                    // Mostra a seção do projeto quando a animação terminar
+                    expander.addEventListener('transitionend', function onTransitionEnd() {
+                        targetSection.classList.remove('hidden');
+                        targetSection.classList.add('visible');
+                        expander.removeEventListener('transitionend', onTransitionEnd);
+                    });
+                });
+            });
+
+            document.querySelectorAll('.close-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    if (!activeCard) return;
+
+                    const activeSection = button.closest('.project-section');
+                    activeSection.classList.remove('visible');
+                    
+                    const cardRect = activeCard.getBoundingClientRect();
+
+                    // Encolhe o expansor de volta para a posição do card
+                    expander.style.top = `${cardRect.top}px`;
+                    expander.style.left = `${cardRect.left}px`;
+                    expander.style.width = `${cardRect.width}px`;
+                    expander.style.height = `${cardRect.height}px`;
+                    expander.style.borderRadius = '1rem'; // 1rem = rounded-2xl
+
+                    expander.addEventListener('transitionend', function onTransitionEnd() {
+                        body.classList.remove('project-view-active');
+                        activeSection.classList.add('hidden');
+                        activeCard = null;
+                        expander.removeEventListener('transitionend', onTransitionEnd);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
