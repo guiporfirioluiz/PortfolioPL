@@ -1,293 +1,324 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfólio - Porfirio Luiz</title>
+    <title>PORFIRIOLUIZ | Desenvolvedor de Software</title>
+    <meta name="description" content="Portfólio de Luiz Porfirio, desenvolvedor de software focado em criar soluções eficientes e escaláveis.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #18222C; /* Nova cor de fundo */
-            overflow-x: hidden;
+            background-color: #111111;
+            color: #EAEAEA;
+        }
+        /* Paleta de cores Azul */
+        .text-sky-500 { color: #0ea5e9; }
+        .bg-sky-500 { background-color: #0ea5e9; }
+        .border-sky-500 { border-color: #0ea5e9; }
+        .stroke-sky-500 { stroke: #0ea5e9; }
+        .ring-sky-500 { --tw-ring-color: #0ea5e9; }
+
+        /* A diretiva @apply não funciona com o CDN do Tailwind.
+           As classes foram movidas diretamente para o HTML.
+           Esta regra foi mantida e reescrita em CSS puro. */
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 4rem; /* Equivalente a w-16 */
+            height: 0.25rem; /* Equivalente a h-1 */
+            background-color: #0ea5e9; /* Equivalente a bg-sky-500 */
+            margin: 1rem auto 0; /* Equivalente a mt-4 mx-auto */
+            border-radius: 0.25rem; /* Equivalente a rounded */
         }
 
-        /* Animação da borda do card */
-        .icon-card rect {
-            stroke-dasharray: 1600; /* Aumentado para o novo tamanho */
-            stroke-dashoffset: 1600;
-            transition: stroke-dashoffset 1.2s ease-in-out;
-        }
-
-        /* Ativa a animação da borda ao passar o mouse */
-        .icon-card:hover rect {
-            stroke-dashoffset: 0;
-        }
-
-        /* Estilos para a visualização de projetos */
-        .project-view-active #main-content {
-            display: none;
-        }
-        .project-section {
+        /* Animações de Entrada */
+        .fade-in {
             opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-        .project-section.visible {
+        .fade-in.visible {
             opacity: 1;
+            transform: translateY(0);
         }
 
-        /* Animação do ponto */
-        @keyframes pulse-dot {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(1.1);
-            }
+        /* Efeito para a seção "Sobre Mim" */
+        .slide-in-left, .slide-in-right {
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1), transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
         }
-        .dot-animation {
-            display: inline-block;
-            animation: pulse-dot 3s ease-in-out infinite;
+        .slide-in-left { transform: translateX(-50px); }
+        .slide-in-right { transform: translateX(50px); }
+        .slide-in-left.visible, .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
         }
 
-        /* Animação da linha "Saiba mais" */
-        .line-drawer {
-            stroke-dasharray: 220; /* Comprimento da linha, ajustado para o texto */
-            stroke-dashoffset: 220;
-        }
-        .header-group:hover .line-drawer {
-            transition: stroke-dashoffset 0.8s ease-in-out;
-            stroke-dashoffset: 0;
+        /* Efeito de hover nos projetos: borda e zoom */
+        .project-card {
+            /* Adiciona uma borda transparente para evitar que o layout mude no hover */
+            border: 2px solid transparent;
+            transition: border-color 0.4s ease-in-out;
+            /* O overflow:hidden já está no HTML, o que é ótimo para o zoom da imagem */
         }
 
-        /* Animação de digitação simples */
+        .project-card:hover {
+            /* A borda fica colorida no hover */
+            border-color: #0ea5e9; /* Cor sky-500 */
+        }
+        
+        /* Animação de digitação */
         .typing-effect {
             display: inline-block;
             overflow: hidden;
             white-space: nowrap;
-            border-right: .15em solid white;
-            /* Animação: digita por 2s, depois esconde o cursor */
-            animation: typing 2s steps(13, end), hide-border .1s 2s forwards;
+            border-right: .15em solid #0ea5e9;
+            /* A animação agora se ajusta ao conteúdo */
+            animation: typing 2s steps(13, end) forwards, blink-caret .75s step-end infinite, hide-cursor .5s 2.2s forwards;
         }
         @keyframes typing {
             from { width: 0 }
             to { width: 100% }
         }
-        @keyframes hide-border {
-            100% {
-                border-color: transparent;
-            }
+        /* Efeito do cursor piscando */
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #0ea5e9; }
         }
-
-        /* Estilos para animação na rolagem */
-        .icon-card {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        @keyframes hide-cursor {
+            to { border-right-color: transparent; }
         }
-        .icon-card.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
     </style>
 </head>
-<body class="text-gray-300">
+<body class="antialiased">
 
-    <!-- Div para a animação de transição -->
-    <div id="expander" class="fixed bg-[#18222C] z-40 rounded-xl pointer-events-none" style="transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);"></div>
+    <!-- Header & Navegação -->
+    <header class="bg-neutral-900/50 backdrop-blur-sm fixed top-0 left-0 right-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#hero" class="text-xl font-bold tracking-wider">PORFIRIOLUIZ<span class="text-sky-500">.</span></a>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#projects" class="text-neutral-300 hover:text-sky-500 transition-colors duration-300">Projetos</a>
+                <a href="#about" class="text-neutral-300 hover:text-sky-500 transition-colors duration-300">Sobre</a>
+                <a href="#tecnologias" class="text-neutral-300 hover:text-sky-500 transition-colors duration-300">Tecnologias</a>
+                <a href="#contact" class="text-neutral-300 hover:text-sky-500 transition-colors duration-300">Contato</a>
+            </nav>
+            <div class="md:hidden">
+                <!-- Mobile menu button can be added here if needed -->
+            </div>
+        </div>
+    </header>
 
-    <div id="main-content" class="container mx-auto px-4 py-8 md:py-12 max-w-4xl">
-
-        <!-- Cabeçalho com o nome -->
-        <header class="text-center mb-12 md:mb-24 flex justify-center items-center h-20">
-            <div class="header-group group relative flex items-center cursor-pointer">
-                <!-- Título animado -->
-                <h1 class="text-4xl md:text-5xl font-light tracking-wider text-white">
-                    <span class="typing-effect">PORFIRIO LUIZ</span><span class="text-amber-400 dot-animation">.</span>
+    <main>
+        <!-- Seção 1: "Acima da Dobra" -->
+        <section id="hero" class="min-h-screen flex items-center bg-grid-neutral-800/[0.2] overflow-hidden">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter">
+                    <span class="typing-effect">Porfirio Luiz</span>
                 </h1>
-                <!-- Seção "Saiba mais" que aparece -->
-                <a href="#aboutme" class="flex flex-col items-center text-lg text-white whitespace-nowrap transition-all duration-700 ease-in-out max-w-0 opacity-0 group-hover:max-w-xs group-hover:opacity-100 group-hover:ml-4 overflow-hidden">
-                    <span>Saiba mais sobre mim</span>
-                    <svg width="220" height="2" class="mt-1 flex-shrink-0">
-                        <line class="line-drawer" x1="0" y1="1" x2="220" y2="1" stroke="#f59e0b" stroke-width="2" />
-                    </svg>
-                </a>
+                <h2 class="text-xl md:text-2xl text-neutral-300 mt-4 max-w-3xl mx-auto fade-in" style="transition-delay: 200ms;">
+                    Desenvolvedor Full-Stack especializado na construção de APIs RESTful escaláveis com Node.js e AWS.
+                </h2>
+                <div class="mt-10 flex justify-center items-center space-x-6 fade-in" style="transition-delay: 400ms;">
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-sky-500 transition-transform duration-300 hover:scale-110" title="LinkedIn">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-sky-500 transition-transform duration-300 hover:scale-110" title="GitHub">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                    <a href="#contact" class="inline-block text-sm font-semibold tracking-wide transition-transform duration-300 ease-in-out bg-sky-500 text-white hover:bg-sky-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-900 focus:ring-sky-500 transform hover:scale-105 p-3 rounded-full" title="Agendar uma conversa">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </a>
+                </div>
             </div>
-        </header>
+        </section>
 
-        <main>
-            <!-- Seção de Habilidades/Projetos -->
-            <section class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 mb-16 md:mb-20">
-                
-                <!-- Card Desenvolvimento -->
-                <div data-target="dev-projects" class="icon-card group relative aspect-square p-8 rounded-xl text-center flex flex-col items-center justify-center transition-all duration-300 cursor-pointer">
-                    <svg class="absolute inset-0 w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)" rx="11" class="stroke-amber-400" stroke-width="2"/>
-                    </svg>
-                    <!-- Conteúdo do Card -->
-                    <div class="relative z-10 flex flex-col items-center justify-center transition-all duration-300">
-                        <img src="https://raw.githubusercontent.com/guiporfirioluiz/PortfolioPL/main/1develop.png" alt="Ícone de Desenvolvimento" class="w-32 h-32 md:w-44 md:h-44 transition-transform duration-500 ease-in-out group-hover:scale-95">
-                        <h2 class="text-2xl font-light text-white opacity-0 max-h-0 group-hover:opacity-75 group-hover:max-h-20 group-hover:mt-4 transition-all duration-300 ease-in-out">Desenvolvimento</h2>
+        <!-- Seção 2: Projetos em Destaque -->
+        <section id="projects" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title text-3xl md:text-4xl font-bold text-center mb-12 relative fade-in">Projetos em Destaque</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+                    
+                    <!-- Card de Projeto 1 -->
+                    <div class="bg-neutral-900 rounded-lg overflow-hidden group project-card relative hover:shadow-2xl hover:shadow-sky-500/10 fade-in">
+                        <img src="https://placehold.co/600x400/18181b/0ea5e9?text=Projeto+1" alt="Imagem do Projeto 1" class="w-full h-48 object-cover group-hover:opacity-90 transition-all duration-300 group-hover:scale-105">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold">Título do Projeto 1</h3>
+                            <div class="flex flex-wrap gap-2 my-3">
+                                <span class="bg-neutral-800 text-sky-500 text-xs font-semibold px-2.5 py-1 rounded">React</span>
+                                <span class="bg-neutral-800 text-sky-500 text-xs font-semibold px-2.5 py-1 rounded">Node.js</span>
+                                <span class="bg-neutral-800 text-sky-500 text-xs font-semibold px-2.5 py-1 rounded">PostgreSQL</span>
+                            </div>
+                            <p class="text-neutral-400 text-sm mb-6">A empresa X enfrentava baixa retenção. Desenvolvi um novo dashboard que centralizou as informações, resultando em um aumento de 15% no engajamento.</p>
+                            <div class="flex space-x-4">
+                                <a href="#" class="inline-block px-6 py-3 rounded-md text-sm font-semibold tracking-wide transition-transform duration-300 ease-in-out bg-sky-500 text-white hover:bg-sky-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-900 focus:ring-sky-500 transform hover:scale-105 flex-1 text-center">Acessar</a>
+                                <a href="#" class="inline-block px-6 py-3 rounded-md text-sm font-semibold tracking-wide transition-transform duration-300 ease-in-out border-2 border-neutral-600 text-neutral-300 hover:bg-neutral-800 hover:border-neutral-500 transform hover:scale-105 flex-1 text-center">Ver Código</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card de Projeto 2 -->
+                    <div class="bg-neutral-900 rounded-lg overflow-hidden group project-card relative hover:shadow-2xl hover:shadow-sky-500/10 fade-in" style="transition-delay: 200ms;">
+                        <img src="https://placehold.co/600x400/18181b/0ea5e9?text=Projeto+2" alt="Imagem do Projeto 2" class="w-full h-48 object-cover group-hover:opacity-90 transition-all duration-300 group-hover:scale-105">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold">Título do Projeto 2</h3>
+                            <div class="flex flex-wrap gap-2 my-3">
+                                <span class="bg-neutral-800 text-sky-500 text-xs font-semibold px-2.5 py-1 rounded">Next.js</span>
+                                <span class="bg-neutral-800 text-sky-500 text-xs font-semibold px-2.5 py-1 rounded">Python</span>
+                                <span class="bg-neutral-800 text-sky-500 text-xs font-semibold px-2.5 py-1 rounded">Docker</span>
+                            </div>
+                            <p class="text-neutral-400 text-sm mb-6">Solução para otimizar o processo de checkout de um e-commerce, diminuindo o tempo de carregamento em 40% e aumentando a taxa de conversão.</p>
+                            <div class="flex space-x-4">
+                                <a href="#" class="inline-block px-6 py-3 rounded-md text-sm font-semibold tracking-wide transition-transform duration-300 ease-in-out bg-sky-500 text-white hover:bg-sky-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-900 focus:ring-sky-500 transform hover:scale-105 flex-1 text-center">Acessar</a>
+                                <a href="#" class="inline-block px-6 py-3 rounded-md text-sm font-semibold tracking-wide transition-transform duration-300 ease-in-out border-2 border-neutral-600 text-neutral-300 hover:bg-neutral-800 hover:border-neutral-500 transform hover:scale-105 flex-1 text-center">Ver Código</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card de Projeto 3 -->
+                    <div class="bg-neutral-900 rounded-lg overflow-hidden group project-card relative hover:shadow-2xl hover:shadow-sky-500/10 fade-in" style="transition-delay: 400ms;">
+                        <img src="https://placehold.co/600x400/18181b/0ea5e9?text=Projeto+3" alt="Imagem do Projeto 3" class="w-full h-48 object-cover group-hover:opacity-90 transition-all duration-300 group-hover:scale-105">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold">Título do Projeto 3</h3>
+                            <div class="flex flex-wrap gap-2 my-3">
+                                <span class="bg-neutral-800 text-sky-500 text-xs font-semibold px-2.5 py-1 rounded">TypeScript</span>
+                                <span class="bg-neutral-800 text-sky-500 text-xs font-semibold px-2.5 py-1 rounded">AWS</span>
+                                <span class="bg-neutral-800 text-sky-500 text-xs font-semibold px-2.5 py-1 rounded">MongoDB</span>
+                            </div>
+                            <p class="text-neutral-400 text-sm mb-6">Criação de uma API robusta para um aplicativo mobile, garantindo alta disponibilidade e baixa latência com arquitetura serverless na AWS.</p>
+                            <div class="flex space-x-4">
+                                <a href="#" class="inline-block px-6 py-3 rounded-md text-sm font-semibold tracking-wide transition-transform duration-300 ease-in-out bg-sky-500 text-white hover:bg-sky-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-900 focus:ring-sky-500 transform hover:scale-105 flex-1 text-center">Acessar</a>
+                                <a href="#" class="inline-block px-6 py-3 rounded-md text-sm font-semibold tracking-wide transition-transform duration-300 ease-in-out border-2 border-neutral-600 text-neutral-300 hover:bg-neutral-800 hover:border-neutral-500 transform hover:scale-105 flex-1 text-center">Ver Código</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Card Design/Ilustração -->
-                <div data-target="design-illustration-projects" class="icon-card group relative aspect-square p-8 rounded-xl text-center flex flex-col items-center justify-center transition-all duration-300 cursor-pointer">
-                    <svg class="absolute inset-0 w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)" rx="11" class="stroke-amber-400" stroke-width="2"/>
-                    </svg>
-                    <!-- Conteúdo do Card -->
-                    <div class="relative z-10 flex flex-col items-center justify-center transition-all duration-300">
-                        <img src="https://raw.githubusercontent.com/guiporfirioluiz/PortfolioPL/main/2ilustration.png" alt="Ícone de Design e Ilustração" class="w-32 h-32 md:w-44 md:h-44 transition-transform duration-500 ease-in-out group-hover:scale-95">
-                        <h2 class="text-2xl font-light text-white opacity-0 max-h-0 group-hover:opacity-75 group-hover:max-h-20 group-hover:mt-4 transition-all duration-300 ease-in-out">Design/Ilustração</h2>
+            </div>
+        </section>
+        
+        <!-- Seção 3: Sobre Mim -->
+        <section id="about" class="py-20 md:py-32 bg-neutral-900">
+            <div class="container mx-auto px-6">
+                 <h2 class="section-title text-3xl md:text-4xl font-bold text-center mb-12 relative fade-in">Sobre Mim</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
+                    <div class="md:col-span-1 flex justify-center slide-in-left">
+                        <img src="https://placehold.co/400x400/111111/EAEAEA?text=Sua+Foto" alt="Foto de Porfirio Luiz" class="rounded-full w-48 h-48 md:w-64 md:h-64 object-cover border-4 border-neutral-800">
+                    </div>
+                    <div class="md:col-span-2 text-lg text-neutral-300 space-y-4 slide-in-right">
+                        <p>Sou um desenvolvedor de software apaixonado por transformar ideias complexas em soluções tecnológicas eficientes e elegantes. Com sólida experiência em desenvolvimento back-end e front-end, minha jornada tem sido focada em construir aplicações robustas que não apenas funcionam, mas que também proporcionam uma experiência de usuário excepcional.</p>
+                        <p>Minhas principais competências incluem Node.js, React e o ecossistema da AWS, onde me sinto à vontade para arquitetar e implantar sistemas escaláveis. Estou sempre em busca de desafios que me permitam aprender novas tecnologias e otimizar a performance de sistemas, contribuindo para o sucesso de projetos inovadores.</p>
                     </div>
                 </div>
-            </section>
-        </main>
-
-        <footer class="text-center mt-8 mb-8">
-            <section class="max-w-xl mx-auto">
-                <h3 class="text-2xl font-bold text-center mb-2 text-white">Contato</h3>
-                <p class="text-center text-gray-400 mb-8">Vamos conversar sobre o seu próximo projeto?</p>
-                <form action="#" method="POST" class="space-y-6">
-                    <div>
-                        <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 bg-gray-800/30 border border-gray-700/60 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all duration-300 placeholder-gray-500" placeholder="Olá, estou interessado(a) em contratar seus serviços, podemos conversar melhor sobre isso?"></textarea>
-                    </div>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <input type="email" id="email" name="email" class="w-full px-4 py-3 bg-gray-800/30 border border-gray-700/60 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all duration-300 placeholder-gray-500" placeholder="Seu email" required>
-                        <button type="submit" class="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-300">Enviar</button>
-                    </div>
-                </form>
-            </section>
-             <div class="flex justify-center space-x-6 mt-16">
-                <a href="mailto:seuemail@example.com" class="text-gray-400 hover:text-white transition-colors duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                </a>
-                <a href="https://wa.me/SEUNUMERO" target="_blank" class="text-gray-400 hover:text-white transition-colors duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                </a>
-                <a href="https://github.com/SEUUSUARIO" target="_blank" class="text-gray-400 hover:text-white transition-colors duration-300">
-                   <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-                </a>
-                <a href="https://instagram.com/SEUUSUARIO" target="_blank" class="text-gray-400 hover:text-white transition-colors duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                </a>
             </div>
-        </footer>
-    </div>
+        </section>
+
+        <!-- Seção 4: Minha Stack de Ferramentas -->
+        <section id="tecnologias" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title text-3xl md:text-4xl font-bold text-center mb-12 relative fade-in">Minhas Tecnologias</h2>
+                <div class="max-w-4xl mx-auto space-y-10">
+                    <!-- Categoria -->
+                    <div class="fade-in">
+                        <h3 class="text-xl font-bold text-sky-500 mb-4">Linguagens</h3>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="bg-neutral-800 border border-neutral-700 text-neutral-300 px-4 py-2 rounded-md">JavaScript</span>
+                            <span class="bg-neutral-800 border border-neutral-700 text-neutral-300 px-4 py-2 rounded-md">TypeScript</span>
+                            <span class="bg-neutral-800 border border-neutral-700 text-neutral-300 px-4 py-2 rounded-md">Python</span>
+                            <span class="bg-neutral-800 border border-neutral-700 text-neutral-300 px-4 py-2 rounded-md">SQL</span>
+                        </div>
+                    </div>
+                    <!-- Categoria -->
+                     <div class="fade-in">
+                        <h3 class="text-xl font-bold text-sky-500 mb-4">Front-end</h3>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="bg-neutral-800 border border-neutral-700 text-neutral-300 px-4 py-2 rounded-md">React</span>
+                            <span class="bg-neutral-800 border border-neutral-700 text-neutral-300 px-4 py-2 rounded-md">Next.js</span>
+                            <span class="bg-neutral-800 border border-neutral-700 text-neutral-300 px-4 py-2 rounded-md">HTML5</span>
+                            <span class="bg-neutral-800 border border-neutral-700 text-neutral-300 px-4 py-2 rounded-md">CSS3</span>
+                            <span class="bg-neutral-800 border border-neutral-700 text-neutral-300 px-4 py-2 rounded-md">Tailwind CSS</span>
+                        </div>
+                    </div>
+                    <!-- Categoria -->
+                     <div class="fade-in">
+                        <h3 class="text-xl font-bold text-sky-500 mb-4">Back-end</h3>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="bg-neutral-800 border border-neutral-700 text-neutral-300 px-4 py-2 rounded-md">Node.js</span>
+                            <span class="bg-neutral-800 border border-neutral-700 text-neutral-300 px-4 py-2 rounded-md">Express</span>
+                            <span class="bg-neutral-800 border border-neutral-700 text-neutral-300 px-4 py-2 rounded-md">Django</span>
+                            <span class="bg-neutral-800 border border-neutral-700 text-neutral-300 px-4 py-2 rounded-md">REST APIs</span>
+                        </div>
+                    </div>
+                     <!-- Categoria -->
+                     <div class="fade-in">
+                        <h3 class="text-xl font-bold text-sky-500 mb-4">Bancos de Dados & DevOps</h3>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="bg-neutral-800 border border-neutral-700 text-neutral-300 px-4 py-2 rounded-md">PostgreSQL</span>
+                             <span class="bg-neutral-800 border border-neutral-700 text-neutral-300 px-4 py-2 rounded-md">MongoDB</span>
+                            <span class="bg-neutral-800 border border-neutral-700 text-neutral-300 px-4 py-2 rounded-md">Docker</span>
+                            <span class="bg-neutral-800 border border-neutral-700 text-neutral-300 px-4 py-2 rounded-md">AWS</span>
+                            <span class="bg-neutral-800 border border-neutral-700 text-neutral-300 px-4 py-2 rounded-md">Git</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção 5: Contato -->
+        <section id="contact" class="py-20 md:py-32 bg-neutral-900">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold fade-in">Vamos construir algo juntos?</h2>
+                <p class="text-lg text-neutral-400 max-w-2xl mx-auto mt-4 fade-in" style="transition-delay: 200ms;">
+                    Tem um projeto em mente ou uma oportunidade que se encaixa no meu perfil? Adoraria conversar. Entre em contato e vamos transformar suas ideias em realidade.
+                </p>
+                <div class="mt-8 fade-in" style="transition-delay: 400ms;">
+                    <a href="mailto:seu-email@dominio.com" class="text-sky-500 text-xl md:text-2xl font-semibold hover:underline">
+                        seu-email@dominio.com
+                    </a>
+                </div>
+                 <div class="mt-10 flex justify-center items-center space-x-6 fade-in" style="transition-delay: 500ms;">
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-sky-500 transition-transform duration-300 hover:scale-110" title="LinkedIn">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-sky-500 transition-transform duration-300 hover:scale-110" title="GitHub">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
     
-    <!-- Seções de Projetos (escondidas por padrão) -->
-    <div class="fixed inset-0 z-50 pointer-events-none">
-        <section id="dev-projects" class="project-section hidden w-full h-full p-8 overflow-y-auto">
-            <div class="container mx-auto max-w-4xl text-center">
-                <h2 class="text-4xl font-bold mb-8">Projetos de Desenvolvimento</h2>
-                <p class="mb-8">Aqui ficará a galeria com seus projetos de desenvolvimento.</p>
-                <button class="close-btn bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300 pointer-events-auto">Voltar</button>
-            </div>
-        </section>
+    <footer class="bg-black py-6">
+        <div class="container mx-auto px-6 text-center text-neutral-500 text-sm">
+            <p>&copy; 2024 PORFIRIOLUIZ. Todos os direitos reservados.</p>
+        </div>
+    </footer>
 
-        <section id="design-illustration-projects" class="project-section hidden w-full h-full p-8 overflow-y-auto">
-             <div class="container mx-auto max-w-4xl text-center">
-                <h2 class="text-4xl font-bold mb-8">Projetos de Design & Ilustração</h2>
-                <p class="mb-8">Aqui ficará a galeria com seus projetos de design e ilustração.</p>
-                <button class="close-btn bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-300 pointer-events-auto">Voltar</button>
-            </div>
-        </section>
-
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- Lógica para Animação de Scroll ---
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        // Para a observação depois que a animação acontece uma vez
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.1 // Anima quando 10% do item está visível
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Animações de entrada para as seções
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Opcional: para de observar o elemento depois que ele se torna visível
+                    // observer.unobserve(entry.target); 
+                }
             });
-
-            const elementsToAnimate = document.querySelectorAll('.icon-card');
-            elementsToAnimate.forEach((el) => observer.observe(el));
-
-
-            // --- Lógica dos Cards ---
-            const cards = document.querySelectorAll('.icon-card');
-            const expander = document.getElementById('expander');
-            const body = document.body;
-            let activeCard = null;
-
-            cards.forEach(card => {
-                card.addEventListener('click', () => {
-                    const targetId = card.dataset.target;
-                    const targetSection = document.getElementById(targetId);
-                    if (!targetSection) return;
-
-                    activeCard = card;
-                    const cardRect = card.getBoundingClientRect();
-
-                    // Prepara o expansor na posição do card
-                    expander.style.top = `${cardRect.top}px`;
-                    expander.style.left = `${cardRect.left}px`;
-                    expander.style.width = `${cardRect.width}px`;
-                    expander.style.height = `${cardRect.height}px`;
-                    
-                    // Força um repaint antes de aplicar a transição
-                    requestAnimationFrame(() => {
-                        body.classList.add('project-view-active');
-                        // Expande para a tela cheia
-                        expander.style.top = '0px';
-                        expander.style.left = '0px';
-                        expander.style.width = '100vw';
-                        expander.style.height = '100vh';
-                        expander.style.borderRadius = '0px';
-                    });
-
-                    // Mostra a seção do projeto quando a animação terminar
-                    expander.addEventListener('transitionend', function onTransitionEnd() {
-                        targetSection.classList.remove('hidden');
-                        targetSection.classList.add('visible');
-                        expander.removeEventListener('transitionend', onTransitionEnd);
-                    });
-                });
-            });
-
-            document.querySelectorAll('.close-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    if (!activeCard) return;
-
-                    const activeSection = button.closest('.project-section');
-                    activeSection.classList.remove('visible');
-                    
-                    const cardRect = activeCard.getBoundingClientRect();
-
-                    // Encolhe o expansor de volta para a posição do card
-                    expander.style.top = `${cardRect.top}px`;
-                    expander.style.left = `${cardRect.left}px`;
-                    expander.style.width = `${cardRect.width}px`;
-                    expander.style.height = `${cardRect.height}px`;
-                    expander.style.borderRadius = '0.75rem'; // corresponde a rounded-xl
-
-                    expander.addEventListener('transitionend', function onTransitionEnd() {
-                        body.classList.remove('project-view-active');
-                        activeSection.classList.add('hidden');
-                        activeCard = null;
-                        expander.removeEventListener('transitionend', onTransitionEnd);
-                    });
-                });
-            });
+        }, {
+            threshold: 0.15 // O elemento é considerado visível quando 15% dele está na tela
         });
-    </script>
+
+        const elementsToAnimate = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right');
+        elementsToAnimate.forEach(el => observer.observe(el));
+    });
+</script>
+
 </body>
 </html>
 
